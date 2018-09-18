@@ -1,0 +1,33 @@
+{
+  "ver" : 0,
+  "project": {
+    "type": "pl",
+    "project": "plem",
+    "title": "Email Plugin for Woveon",
+    "description": "Manages email accounts for Woveon via the IMAP protocol."
+  },
+  "//operation": "unused so far",
+  "operation": {},
+  "archive": {
+    "env": "s3://wovtools.woveon.com/archive/plem",
+    "repository": "686413534598.dkr.ecr.us-east-1.amazonaws.com"
+  },
+  "nodeploy": {},
+  "secrets": {
+    "cw" : [ "apidb.json", "apirest.json", "www.json", "ple.json" ],
+    "dev" : [ "apidb.json", "apirest.json", "www.json", "ple.json" ]
+  },
+  "stagemods" : {
+    {
+      "name": "local",
+      "status": "on",
+      "routes": [
+        [
+          "apirest.local",
+          "apirest.ME"
+        ]
+      ]
+    }
+  }
+}
+

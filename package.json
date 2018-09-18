@@ -1,0 +1,23 @@
+{
+  "name": "pltester",
+  "version": "0.0.1",
+  "description": "Woveon test and development plugin.",
+  "main": "src/index.js",
+  "scripts": {
+    "//run": "Run the services",
+    "start": "node src/index.js",
+    "pltestwl": "node src/pltestwl.js",
+    "devpltestwl": "nodemon src/pltestwl.js",
+    "pltestrl": "node src/pltestrl.js",
+    "devpltestrl": "nodemon src/pltestrl.js",
+    "pltestov": "node src/pltestov.js",
+    "devpltestov": "nodemon src/pltestov.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chadwick Wingrave",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "woveon-engine-p" : "^0.1.2",
+    "woveon-logger"   : "^0.0.9"
+  }
+}

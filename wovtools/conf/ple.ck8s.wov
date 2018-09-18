@@ -1,0 +1,52 @@
+
+# --------------------------------------------------------------------- 
+# WoveonLogger: Aspect Logging
+# --------------------------------------------------------------------- 
+# WOV_LOGGER_ASPECTS=
+# --- should set on your own
+
+
+# --------------------------------------------------------------------- 
+# APIREST and APP
+# --------------------------------------------------------------------- 
+WOV_api_ver=\{{apirest.ver}}
+WOV_api_fullurl=\{{apirest.{{STAGE}}.urlscheme}}://\{{apirest.{{STAGE}}.url}}
+WOV_wwwapp_fullurl=\{{www.{{STAGE}}.app.urlscheme}}://\{{www.{{STAGE}}.app.url}}/
+
+
+# --------------------------------------------------------------------- 
+# Constants in WoveonEngine
+# --------------------------------------------------------------------- 
+WOV_ple_wl_port={{ple.wl_port}}
+WOV_ple_rl_port={{ple.rl_port}}
+WOV_ple_ov_port={{ple.ov_port}}
+WOV_ple_db_user={{ple.db.user}}
+WOV_ple_db_collection={{ple.db.collection}}
+WOV_ple_outofdateseconds=\{{ple.{{STAGE}}.outofdateseconds}}
+WOV_testuser_id={{testuser.id}}
+WOV_testuser_name={{testuser.name}}
+WOV_testuser_email={{testuser.email}}
+
+# --------------------------------------------------------------------- 
+# WoveonEngine Database
+# --------------------------------------------------------------------- 
+WOV_{{PROJECT}}db_type=mongo
+WOV_{{PROJECT}}db_database=\{{ple.db.collection}}
+WOV_{{PROJECT}}db_username=\{{ple.db.user}}
+WOV_{{PROJECT}}db_host=\{{ple.{{STAGE}}.db_url}}
+
+
+# --------------------------------------------------------------------- 
+# Plugin Variables
+# --------------------------------------------------------------------- 
+WOV_plugin_id=\{{{{PROJECT}}.id}}
+WOV_plugin_name=\{{PROJECT}}
+WOV_plugin_title="\{{PROJECTTITLE}}"
+WOV_plugin_contactemail=\{{USEREMAIL}}
+WOV_plugin_desc="\{{PROJECTDESCRIPTION}}"
+WOV_plugin_inst="\{{{{PROJECT}}.instructions}}"
+WOV_plugin_url={{PROJECT}}-{{STAGE}}.woveon.com
+WOV_plugin_urlscheme=\{{{{PROJECT}}.{{STAGE}}.urlscheme}}
+WOV_plugin_db_fullurl=mongodb://\{{ple.{{STAGE}}.db_url}}/\{{ple.db.collection}}
+
+
