@@ -9,9 +9,9 @@
 # --------------------------------------------------------------------- 
 # APIREST and APP
 # --------------------------------------------------------------------- 
-WOV_api_ver=\{{apirest.ver}}
-WOV_api_fullurl=\{{apirest.{{STAGE}}.urlscheme}}://\{{apirest.{{STAGE}}.url}}
 WOV_wwwapp_fullurl=\{{www.{{STAGE}}.app.urlscheme}}://\{{www.{{STAGE}}.app.url}}/
+WOV_api_fullurl=\{{apirest.{{STAGE}}.urlscheme}}://\{{apirest.{{STAGE}}.url}}
+WOV_api_ver=\{{apirest.ver}}
 
 
 # --------------------------------------------------------------------- 
@@ -22,7 +22,7 @@ WOV_we_rl_port={{we.rl_port}}
 WOV_we_ov_port={{we.ov_port}}
 #WOV_we_db_user={{we.db.user}}
 #WOV_we_db_collection={{we.db.collection}}
-WOV_we_outofdateseconds=\{{we.{{STAGE}}.outofdateseconds}}
+WOV_we_outofdateseconds=\{{we.outofdateseconds}}
 WOV_testuser_id={{testuser.id}}
 WOV_testuser_name={{testuser.name}}
 WOV_testuser_email={{testuser.email}}
@@ -47,6 +47,6 @@ WOV_plugin_contactemail=\{{USEREMAIL}}
 WOV_plugin_desc="\{{PROJECTDESCRIPTION}}"
 WOV_plugin_inst="\{{{{PROJECT}}.instructions}}"
 WOV_plugin_url={{PROJECT}}-{{STAGE}}.woveon.com
-WOV_plugin_urlscheme=\{{{{PROJECT}}.{{STAGE}}.urlscheme}}
+WOV_plugin_urlscheme=\{{we.{{STAGE}}.urlscheme}}
 
 

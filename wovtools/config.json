@@ -2,9 +2,9 @@
   "ver" : 0,
   "project": {
     "type": "pl",
-    "project": "plem",
-    "title": "Email Plugin for Woveon",
-    "description": "Manages email accounts for Woveon via the IMAP protocol."
+    "project": "pltest",
+    "title": "Test Plugin for Woveon",
+    "description": "Test plugin for demonstrating plugin development. Uses a pseudo Oauth authentication with testserver."
   },
   "//operation": "unused so far",
   "operation": {},
@@ -23,7 +23,11 @@
       "routes": [
         [
           "apirest.local",
-          "apirest.ME"
+          "apirest.dev"
+        ],
+        [
+          "we.db.local",
+          "we.db.dev"
         ]
       ]
     }

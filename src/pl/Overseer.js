@@ -10,7 +10,7 @@ module.exports = class pltestOverseer extends OverseerService {
    * Constructor.
    * @param {*} _config
    */
-  constructor({name = 'testOverseerListener'}, _config) {
-    super({name}, _config);
+  constructor({name = 'testOverseerListener', logger= null}, _config) {
+    super({name, logger}, _config);
   }
 };

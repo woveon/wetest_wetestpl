@@ -1,3 +1,5 @@
 
+WOV_plugin_secret=\{{we.{{STAGE}}.secret}}
+WOV_plugin_data_secret=\{{we.{{STAGE}}.datasecret}}
 WOV_testuser_password={{testuser.password}}
 WOV_{{PROJECT}}db_password=
