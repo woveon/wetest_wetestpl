@@ -14,10 +14,9 @@
   },
   "nodeploy": {},
   "secrets": {
-    "cw" : [ "apidb.json", "apirest.json", "www.json", "ple.json" ],
-    "dev" : [ "apidb.json", "apirest.json", "www.json", "ple.json" ]
+    "dev" : [ "we/we.json" ]
   },
-  "stagemods" : {
+  "stagemods" : [
     {
       "name": "local",
       "status": "on",
@@ -28,6 +27,6 @@
         ]
       ]
     }
-  }
+  ]
 }
 

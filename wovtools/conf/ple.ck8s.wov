@@ -17,12 +17,12 @@ WOV_wwwapp_fullurl=\{{www.{{STAGE}}.app.urlscheme}}://\{{www.{{STAGE}}.app.url}}
 # --------------------------------------------------------------------- 
 # Constants in WoveonEngine
 # --------------------------------------------------------------------- 
-WOV_ple_wl_port={{ple.wl_port}}
-WOV_ple_rl_port={{ple.rl_port}}
-WOV_ple_ov_port={{ple.ov_port}}
-WOV_ple_db_user={{ple.db.user}}
-WOV_ple_db_collection={{ple.db.collection}}
-WOV_ple_outofdateseconds=\{{ple.{{STAGE}}.outofdateseconds}}
+WOV_we_wl_port={{we.wl_port}}
+WOV_we_rl_port={{we.rl_port}}
+WOV_we_ov_port={{we.ov_port}}
+#WOV_we_db_user={{we.db.user}}
+#WOV_we_db_collection={{we.db.collection}}
+WOV_we_outofdateseconds=\{{we.{{STAGE}}.outofdateseconds}}
 WOV_testuser_id={{testuser.id}}
 WOV_testuser_name={{testuser.name}}
 WOV_testuser_email={{testuser.email}}
@@ -31,9 +31,10 @@ WOV_testuser_email={{testuser.email}}
 # WoveonEngine Database
 # --------------------------------------------------------------------- 
 WOV_{{PROJECT}}db_type=mongo
-WOV_{{PROJECT}}db_database=\{{ple.db.collection}}
-WOV_{{PROJECT}}db_username=\{{ple.db.user}}
-WOV_{{PROJECT}}db_host=\{{ple.{{STAGE}}.db_url}}
+WOV_{{PROJECT}}db_database=\{{we.db.{{STAGE}}.collection}}
+WOV_{{PROJECT}}db_username=\{{we.db.user}}
+WOV_{{PROJECT}}db_host=\{{we.db.{{STAGE}}.db_url}}
+WOV_plugin_db_fullurl=mongodb://\{{we.db.{{STAGE}}.db_url}}/\{{we.db.{{STAGE}}.collection}}
 
 
 # --------------------------------------------------------------------- 
@@ -47,6 +48,5 @@ WOV_plugin_desc="\{{PROJECTDESCRIPTION}}"
 WOV_plugin_inst="\{{{{PROJECT}}.instructions}}"
 WOV_plugin_url={{PROJECT}}-{{STAGE}}.woveon.com
 WOV_plugin_urlscheme=\{{{{PROJECT}}.{{STAGE}}.urlscheme}}
-WOV_plugin_db_fullurl=mongodb://\{{ple.{{STAGE}}.db_url}}/\{{ple.db.collection}}
 
 
