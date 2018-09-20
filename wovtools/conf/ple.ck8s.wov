@@ -46,7 +46,7 @@ WOV_plugin_title="\{{PROJECTTITLE}}"
 WOV_plugin_contactemail=\{{USEREMAIL}}
 WOV_plugin_desc="\{{PROJECTDESCRIPTION}}"
 WOV_plugin_inst="\{{{{PROJECT}}.instructions}}"
-WOV_plugin_url={{PROJECT}}-{{STAGE}}.woveon.com
+WOV_plugin_url=\{{we.{{STAGE}}.url}}
 WOV_plugin_urlscheme=\{{we.{{STAGE}}.urlscheme}}
 
 

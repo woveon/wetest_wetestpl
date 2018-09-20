@@ -19,6 +19,9 @@ module.exports = class pltestWoveonListener extends WoveonListenerService {
     _options.name = _options.name || 'pltestWoveonListener';
     _options.channelValidateLaunch = true; // pseudo oauth validation, so not user-entered, but 'state' needs validation
     super(_options, _config);
+
+    // create a remote service requester
+    this.toRS = new Service.Requester(this.logger, this.config.pltest.remoteServer);
   }
 
 
@@ -27,15 +30,22 @@ module.exports = class pltestWoveonListener extends WoveonListenerService {
    *
    * @param {*} _args - the token t, or stateful value, create by this WL, when the API contacted
    *                it and told it that a user will be creating a channel.
-   * @return {WovReturn} - a redirect to the remote_oauth url
+   * @return {WovReturn} - How did the connection to RS do? For pltest, returns the status of the oauth
    */
   async onChannelStart(_args) {
     let remoteAuthPath =
-      `${this.config.pltest.remoteServer}/api/v1/remote_oauth` +
-      `?woveon_id=1` +
-      `&state=${_args.t}`;
-    this.logger.info(`channel "${_args.t}" redirect to: "${remoteAuthPath}"`);
-    return WovReturn.retRedirect(remoteAuthPath);
+      // `${this.config.pltest.remoteServer}/api/v1/remote_oauth` +
+      `/api/v1/remote_oauth` +
+      `?t=${_args.t}`+
+      `&rsid=1` +
+      // `?woveon_id=1` +
+      `&state=${_args.t}`; // for pltest, just using token id as state
+    this.logger.aspect('ChannelStart', `channel "${_args.t}" contact to: "${remoteAuthPath}"`);
+    let result = await this.toRS.get(remoteAuthPath, null);
+    this.logger.aspect('ChannelStart', ' ... RS result: ', result);
+
+    // return result; // WovReturn.retRedirect(remoteAuthPath);
+    return WovReturn.retRedirect(result.data.redirectUrl);
   }
 
 
@@ -45,13 +55,23 @@ module.exports = class pltestWoveonListener extends WoveonListenerService {
    * @return {WovReturn} - error on error, null on success
    */
   async onValidateLaunch(_channel, _args) {
-    let retval = WovReturn.checkAttributes(_args, ['state', 'oauthtoken']);
+
+    this.logger.aspect('ValidateLaunch', 'pltest: onValidateLaunch: channel:', _channel,' args: ',  _args);
+    let retval = WovReturn.checkAttributes(_args, ['token', 'state', 'oauthtoken']);
 
     if ( retval == null ) {
-      if ( _channel.state != _args.state ) {
+      if ( _channel.token != _args.state ) { // for pltest, 'state' is channel, for other plugins, state should be part of channel
         retval = WovReturn.retError(_args.state, 'Remote service returning back state variable');
       }
     }
+
+    if ( retval == null ) {
+      this.logger.aspect('ValidateLaunch', 'contact Remote Server to check oauth token and state');
+      let result = await this.toRS.post(`/rs/${process.env.WOV_api_ver}/hook_start`, null, {token: _args.token, oauthtoken: _args.oauthtoken});
+      if ( result.success != true ) { retval = WovReturn.retError(_args, 'unable to start hook into remote service'); }
+    }
+
+    this.logger.aspect('ValidateLaunch', '... onValidateLaunch returning: ', retval);
 
     return retval;
   }
@@ -62,7 +82,7 @@ module.exports = class pltestWoveonListener extends WoveonListenerService {
    * @param {object} _channeldata - oauth token
    * @return {object} - oauthtoken and state
    */
-  packPluginData(_channeldata) { return {oauthtoken : _channeldata.oauthtoken, state : _channeldata.state}; }
+  packPluginData(_channeldata) { return WovReturn.retSuccess({oauthtoken : _channeldata.oauthtoken, state : _channeldata.state}); }
 
 
   /**

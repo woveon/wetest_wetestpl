@@ -1,5 +1,5 @@
 # Test Plugin
 >   by Chadwick Wingrave, chadwick@woveon.com
 
-# pltester
+# pltest
 Woveon test and development plugin. Created as an example and for testing.

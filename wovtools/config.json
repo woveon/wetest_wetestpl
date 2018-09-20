@@ -21,14 +21,9 @@
       "name": "local",
       "status": "on",
       "routes": [
-        [
-          "apirest.local",
-          "apirest.dev"
-        ],
-        [
-          "we.db.local",
-          "we.db.dev"
-        ]
+        [ "apirest.local", "apirest.dev" ],
+        [ "we.db.local", "we.db.dev" ],
+        [ "we.local", "we.dev" ]
       ]
     }
   ]

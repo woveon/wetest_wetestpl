@@ -5,6 +5,7 @@ const Logger                = require('woveon-logger');
 const RemoteListenerService = require('woveon-engine-p').MicroServices.RemoteListener;
 const Listener              = require('woveon-engine-p').Service.Listener;
 const Requester             = require('woveon-engine-p').Service.Requester;
+const WovReturn             = require('woveon-engine-p').Service.WovReturn;
 
 
 module.exports = class pltestRemoteListener extends RemoteListenerService {
@@ -65,27 +66,25 @@ module.exports = class pltestRemoteListener extends RemoteListenerService {
    * @return {*} - server time of when connection was enabled; this is the monitoring time
    */
   async doConnectChannel(_ref) { // enableRSChannelConnection(_ref)
-    this.logger.verbose(`pltestRemoteListener.doConnectChannelToRS ... start : ${JSON.stringify(_ref)}`);
-
-    // set vales in mongodb channel document (i.e. row), to be saved to database
-    if ( _ref.args != null ) {
-      _ref.ref.pluginData = {oauth_token : _ref.args.oauth_token};
-    }
+    this.logger.aspect('doConnectChannel', `pltestRemoteListener.doConnectChannelToRS ... start : ${JSON.stringify(_ref)}`);
+    let retval = WovReturn.checkAttributes(_ref, ['ref', 'args', 're' ]);
 
     // enabled connection
-    let v = {channel : _ref.ref.token, oauth_token : _ref.ref.pluginData.oauth_token};
-    const result        = await this.toTestPlugin.post('/connect_channel', null, v, true);
-    let retval = await result.json();
-    this.logger.info('result of /connect_channel', retval);
-    if ( retval.success == false ) {
-      this.logger.error('Failed enabling connection. Does channel exist on server?', retval);
-    } else if ( retval.success == true ) {
-      let d = new Date(result.headers.get('date')).getTime();
-      retval.data = {time : d};
+    if ( retval == null ) {
+      let v = {token: _ref.ref.token, oauthtoken : _ref.ref.pluginData.oauthtoken}; // _ref.ref.pluginData.oauthtoken};
+      this.logger.aspect('doConnectChannel', 'calling /hook_start with ', v);
+      let result = await this.toTestPlugin.post(`/rs/${process.env.WOV_api_ver}/hook_start`, null, v );
+      this.logger.aspect('doConnectChannel', 'result of /hook_start', result);
+      if ( result.success == false ) {
+        retval = WovReturn.retError(result, 'Failed enabling connection. Does channel exist on server?');
+      } else if ( result.success == true ) {
+        let d = new Date().getTime();
+        retval = WovReturn.retSuccess( Object.assign({}, result.data, {time : d}));
+      }
     }
 
-    this.logger.verbose('/connect_channel result ', retval);
-    this.logger.verbose('pltestRemoteListener.enableRSChannelConnection... end');
+    this.logger.aspect('doConnectChannel', '/connect_channel result ', retval);
+    this.logger.aspect('doConnectChannel', 'pltestRemoteListener.enableRSChannelConnection... end');
     return retval;
   };
 
