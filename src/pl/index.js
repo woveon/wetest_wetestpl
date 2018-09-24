@@ -5,10 +5,9 @@ module.exports = {
   Logger         : require('woveon-logger'),
 
 
-  Config         : require('./Config'),
   WoveonListener : require('./WoveonListener'),
   RemoteListener : require('./RemoteListener'),
   Overseer       : require('./Overseer'),
 
-  plResource     : require('./plresource'),
+//   plResource     : require('./plresource'),
 };

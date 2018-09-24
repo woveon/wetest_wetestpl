@@ -20,8 +20,10 @@ module.exports = class pltestWoveonListener extends WoveonListenerService {
     _options.channelValidateLaunch = true; // pseudo oauth validation, so not user-entered, but 'state' needs validation
     super(_options, _config);
 
-    // create a remote service requester
-    this.toRS = new Service.Requester(this.logger, this.config.pltest.remoteServer);
+    // create a remote service requester, going to testserver which is imitaing a 
+    // remote service's Oauth
+    let remoteserver = 'http://localhost:3010';
+    this.toRS = new Service.Requester(this.logger, remoteserver);
   }
 
 

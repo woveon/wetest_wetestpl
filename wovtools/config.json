@@ -14,16 +14,16 @@
   },
   "nodeploy": {},
   "secrets": {
-    "dev" : [ "we/we.json" ]
+    "dev" : [ "we.json", "pltest.json" ]
   },
   "stagemods" : [
     {
       "name": "local",
       "status": "on",
       "routes": [
-        [ "apirest.local", "apirest.dev" ],
-        [ "we.db.local", "we.db.dev" ],
-        [ "we.local", "we.dev" ]
+        [ "api.STAGElocal", "api.STAGEdev" ],
+        [ "we.db.STAGElocal", "we.db.STAGEdev" ],
+        [ "we.STAGElocal", "we.STAGEdev" ]
       ]
     }
   ]

@@ -7,8 +7,9 @@ let logger           = new (require('woveon-logger'))('pltest',
 			{listener: true, woveon: true, requester: true});
 
 // Configure project
-let config           = require('./pl/Config');
-config.service.port = config.plugin.wl_port;
+//let config           = require('./pl/Config');
+//config.service.port = config.plugin.wl_port;
+let config = new WL.WEConfig(logger);
 
 // Spew config if in dev mode 
 logger.info(' config : ', config);

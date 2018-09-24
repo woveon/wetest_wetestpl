@@ -8,11 +8,7 @@ let logger = new PL.Logger('pltestov',
   {listener : true, requester : true});
 
 // Configure project
-let config          = PL.PE.Service.Config;
-config.service.port =  config.plugin.ov_port; // 0
-
-// Spew config if in dev mode
-// logger.info(' config : ', config);
+let config new PL.Overseer.WEService(logger);
 
 let rl= new PL.Overseer({logger : logger}, config);
 

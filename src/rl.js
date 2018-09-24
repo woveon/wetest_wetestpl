@@ -6,11 +6,7 @@ const PL   = require('./pl');
 let logger           = new PL.Logger('pltestRL', {showName: true, debug: true, level: 'verbose'},
                                             {listener: true, woveon: true, requester: true});
 
-// Configure project
-let config           = PL.PE.Service.Config;
-
-
-config.service.port =  config.plugin.rl_port; // 0
+let config = new PL.WEConfig(logger);
 
 // Spew config if in dev mode
 logger.info(' config : ', config);
