@@ -15,20 +15,27 @@ module.exports = class pltestWoveonListener extends WoveonListenerService {
    * @param {*} _options
    * @param {*} _config
    */
-  constructor(_options, _config) {
-    _options.name = _options.name || 'pltestWoveonListener';
-    _options.channelValidateLaunch = true; // pseudo oauth validation, so not user-entered, but 'state' needs validation
-    super(_options, _config);
+  constructor(_options) {
+    let options = Object.assign({}, {
+      name                  : 'pltestWoveonListener',
+      staticdir             : 'static',
+      channelValidateLaunch : true, // pseudo oauth validation, so not user-entered, but 'state' needs validation
+      logger                : pltestWoveonListener.WEConfig.logger,
+    }, _options);
+    // console.log(__filename, ') options 0: ', _options);
+    // console.log(__filename, ') options 1: ', options);
+    super(options);
+    // console.log(__filename, ') options 1: ', this.options);
 
     // create a remote service requester, going to testserver which is imitaing a 
     // remote service's Oauth
-    let remoteserver = 'http://localhost:3010';
+    let remoteserver = pltestWoveonListener.WEConfig.get('WOV_api_fullurl');
     this.toRS = new Service.Requester(this.logger, remoteserver);
   }
 
 
   /**
-   * This contacts the testserver to do the remote_oauth. Save that oauth for later.
+   * Returnsa redirect to the remote service.
    *
    * @param {*} _args - the token t, or stateful value, create by this WL, when the API contacted
    *                it and told it that a user will be creating a channel.
@@ -37,17 +44,19 @@ module.exports = class pltestWoveonListener extends WoveonListenerService {
   async onChannelStart(_args) {
     let remoteAuthPath =
       // `${this.config.pltest.remoteServer}/api/v1/remote_oauth` +
+      `${pltestWoveonListener.WEConfig.get('WOV_api_fullurl')}` +
       `/api/v1/remote_oauth` +
       `?t=${_args.t}`+
       `&rsid=1` +
       // `?woveon_id=1` +
       `&state=${_args.t}`; // for pltest, just using token id as state
-    this.logger.aspect('ChannelStart', `channel "${_args.t}" contact to: "${remoteAuthPath}"`);
-    let result = await this.toRS.get(remoteAuthPath, null);
-    this.logger.aspect('ChannelStart', ' ... RS result: ', result);
+    this.logger.aspect('ChannelStart', `onChannelStart: channel "${_args.t}", to redirect to: "${remoteAuthPath}"`);
+    // let result = await this.toRS.get(remoteAuthPath, null);
+    // this.logger.aspect('ChannelStart', ' ... RS result: ', result);
 
     // return result; // WovReturn.retRedirect(remoteAuthPath);
-    return WovReturn.retRedirect(result.data.redirectUrl);
+    // return WovReturn.retRedirect(result.data.redirectUrl);
+    return WovReturn.retRedirect(remoteAuthPath);
   }
 
 
