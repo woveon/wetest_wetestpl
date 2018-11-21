@@ -14,6 +14,7 @@
   },
   "nodeploy": {},
   "secrets": {
+    "cw" :  [ "we.json", "pltest.json" ],
     "dev" : [ "we.json", "pltest.json" ]
   },
   "stagemods" : [
@@ -21,9 +22,10 @@
       "name": "local",
       "status": "on",
       "routes": [
-        [ "api.STAGElocal", "api.STAGEdev" ],
-        [ "we.db.STAGElocal", "we.db.STAGEdev" ],
-        [ "we.STAGElocal", "we.STAGEdev" ]
+        [ "api.CLUSTERlocal", "api.STAGEdev" ],
+        [ "we.db.CLUSTERlocal", "we.db.STAGEdev" ],
+        [ "we.CLUSTERlocal", "we.STAGEdev" ],
+        [ "www.CLUSTERlocal", "www.STAGEdev" ]
       ]
     }
   ]

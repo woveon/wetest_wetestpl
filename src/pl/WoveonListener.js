@@ -1,8 +1,12 @@
 const WoveonListenerService = require('../../../src/microservices/woveonListenerService');
-const ReqRes                = require('../../../src/service/reqRes');
+// const ReqRes                = require('../../../src/service/reqRes');
 // const Service               = require('../../../src/service/service');
 const Service               = require('woveon-service');
 const WovReturn             = Service.WovReturn;
+const C                     = Service.Config;
+const ResLib                = require('../../../src/service/reslib');
+const MessageResProto = require('../../../src/service/restypes/message');
+
 
 module.exports = class pltestWoveonListener extends WoveonListenerService {
 
@@ -31,6 +35,12 @@ module.exports = class pltestWoveonListener extends WoveonListenerService {
     // remote service's Oauth
     let remoteserver = pltestWoveonListener.WEConfig.get('WOV_api_fullurl');
     this.toRS = new Service.Requester(this.logger, remoteserver);
+  }
+
+  doInitMessageModel() {
+    let plp  = new ResLib.prot.PLProto();
+    let resp = new MessageResProto();
+    return new ResLib.ResModel(resp, plp);
   }
 
 
@@ -69,6 +79,7 @@ module.exports = class pltestWoveonListener extends WoveonListenerService {
 
     this.logger.aspect('ValidateLaunch', 'pltest: onValidateLaunch: channel:', _channel,' args: ',  _args);
     let retval = WovReturn.checkAttributes(_args, ['token', 'state', 'oauthtoken']);
+    this.logger.info('retval of chekc is: ', retval);
 
     if ( retval == null ) {
       if ( _channel.token != _args.state ) { // for pltest, 'state' is channel, for other plugins, state should be part of channel
@@ -78,7 +89,7 @@ module.exports = class pltestWoveonListener extends WoveonListenerService {
 
     if ( retval == null ) {
       this.logger.aspect('ValidateLaunch', 'contact Remote Server to check oauth token and state');
-      let result = await this.toRS.post(`/rs/${process.env.WOV_api_ver}/hook_start`, null, {token: _args.token, oauthtoken: _args.oauthtoken});
+      let result = await this.toRS.post(`/rs/${C.get('WOV_api_ver')}/hook_start`, null, {token: _args.token, oauthtoken: _args.oauthtoken});
       if ( result.success != true ) { retval = WovReturn.retError(_args, 'unable to start hook into remote service'); }
     }
 

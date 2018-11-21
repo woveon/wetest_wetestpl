@@ -2,11 +2,16 @@
 
 const Logger                = require('woveon-logger');
 
-const RemoteListenerService = require('woveon-engine-p').MicroServices.RemoteListener;
-const Listener              = require('woveon-engine-p').Service.Listener;
-const Requester             = require('woveon-engine-p').Service.Requester;
-const WovReturn             = require('woveon-engine-p').Service.WovReturn;
+const WE                    = require('woveon-engine-p');
+const WEService             = WE.Service;
+const RemoteListenerService = WE.MicroServices.RemoteListener;
+// const Listener              = WEService.Listener;
+const Requester             = WEService.Requester;
+const WovReturn             = WEService.WovReturn;
+const Long                  = WEService.DB.Mongoose.Types.Long;
 
+
+const C                     = require('woveon-engine-p').Service.Config;
 
 module.exports = class pltestRemoteListener extends RemoteListenerService {
 
@@ -15,15 +20,18 @@ module.exports = class pltestRemoteListener extends RemoteListenerService {
    * @param {*} _config
    * @param {*} _options
    */
-  constructor(_config, _options = {name: 'testRemoteListener'}) {
+  constructor(_config, _options = {name : 'testRemoteListener'}) {
     super(_config, _options);
     let logger = new Logger('pltestrl'.toUpperCase(),
-                  {showName: true, debug: true, level: 'info'},
-                  {listener: false, requester: false});
+                  {showName : true, debug : true, level : 'info'},
+                  {listener : false, requester : false});
     this.toTestPlugin= new Requester(logger, 'http://localhost:3010');
   }
 
-  // This makes it so it maxes out at 10 channels.
+  /**
+   * This makes it so it maxes out at 10 channels.
+   * @return {float} - fraction of capacity this RL is operating at (i.e. .1 is 10%)
+   */
   getCapacity() {
 //    this.logger.info('getCapacity :', Object.keys(this.myChannels).length);
     return Object.keys(this.myChannels).length / 10;
@@ -31,14 +39,13 @@ module.exports = class pltestRemoteListener extends RemoteListenerService {
 
 
   /**
-   * Add routes to the listener for push updates from the remote service. For 
+   * Add routes to the listener for push updates from the remote service. For
    * example, webhooks. This test service does not have this.
    */
   async onInit() {
     await super.onInit();
     this.logger.verbose('HERE: Add routes, such as webhooks and health checks');
   };
-
 
 
   /**
@@ -55,7 +62,7 @@ module.exports = class pltestRemoteListener extends RemoteListenerService {
    *
    *
    *   ex. for Facebook, obtain an extended token, then turn on webhooks
-   * @param {object} _ref - { ref : channel, args: _args, re:  }
+   * @param {object} _ref - { cref : channel, args: _args, lref:  }
    *   - This is a reference to data in the calling function so changes can be made to the values.
    *     - ref - the channel object, only with 'token' so far.
    *     - args - are the params passed directly from WoveonListener. if args is null, then
@@ -63,17 +70,35 @@ module.exports = class pltestRemoteListener extends RemoteListenerService {
    *     - re - The running entry for the channel is empty by default, but stores runtime data
    *       such as code to interpret the pushed data. Stored in the myChannelsLocalData variable
    *       on return.
-   * @return {*} - server time of when connection was enabled; this is the monitoring time
+   * // @return {*} - server time of when connection was enabled; this is the monitoring time
+   * @return {Array} - empty array since this doesn't do subchannels
+   *
    */
   async doConnectChannel(_ref) { // enableRSChannelConnection(_ref)
     this.logger.aspect('doConnectChannel', `pltestRemoteListener.doConnectChannelToRS ... start : ${JSON.stringify(_ref)}`);
-    let retval = WovReturn.checkAttributes(_ref, ['ref', 'args', 're' ]);
+    let retval = WovReturn.checkAttributes(_ref, ['cref', 'args', 'lref']);
+
+    if ( retval == null ) {
+      let v = {token : _ref.cref.token, oauthtoken : _ref.cref.pluginData.oauthtoken};
+      this.logger.aspect('doConnectChannel', 'calling /hook_start with ', v);
+      let result = await this.toTestPlugin.post(`/rs/${C.get('WOV_api_ver')}/hook_start`, null, v );
+      this.logger.aspect('doConnectChannel', 'result of /hook_start', result);
+      if ( result.success == false ) {
+        retval = WovReturn.retError(result, 'Failed enabling connection. Does channel exist on server?');
+      }
+      else if ( result.success == true ) {
+        // let d = new Date().getTime();
+        // retval = WovReturn.retSuccess( Object.assign({}, result.data, {time : d}));
+        _ref.cref.e_mon = Long.fromBits((new Date()).getTime(), 0);
+      }
+    }
+    /*
 
     // enabled connection
     if ( retval == null ) {
       let v = {token: _ref.ref.token, oauthtoken : _ref.ref.pluginData.oauthtoken}; // _ref.ref.pluginData.oauthtoken};
       this.logger.aspect('doConnectChannel', 'calling /hook_start with ', v);
-      let result = await this.toTestPlugin.post(`/rs/${process.env.WOV_api_ver}/hook_start`, null, v );
+      let result = await this.toTestPlugin.post(`/rs/${C.get('WOV_api_ver')}/hook_start`, null, v );
       this.logger.aspect('doConnectChannel', 'result of /hook_start', result);
       if ( result.success == false ) {
         retval = WovReturn.retError(result, 'Failed enabling connection. Does channel exist on server?');
@@ -82,10 +107,11 @@ module.exports = class pltestRemoteListener extends RemoteListenerService {
         retval = WovReturn.retSuccess( Object.assign({}, result.data, {time : d}));
       }
     }
-
     this.logger.aspect('doConnectChannel', '/connect_channel result ', retval);
+    */
+
     this.logger.aspect('doConnectChannel', 'pltestRemoteListener.enableRSChannelConnection... end');
-    return retval;
+    return []; // return no subchannels
   };
 
 

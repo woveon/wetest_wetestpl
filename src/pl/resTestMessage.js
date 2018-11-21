@@ -5,7 +5,7 @@ const ResLib = require('../../../src/service').ResLib;
 /**
  * Specializes a Res Message object for the Test plugin.
  */
-module.exports = class TestMessagePLProto extends ResLib.PLProto {
+module.exports = class TestMessagePLProto extends ResLib.prot.PLProto {
 
   /**
    */
