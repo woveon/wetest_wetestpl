@@ -14,20 +14,19 @@
   },
   "nodeploy": {},
   "secrets": {
-    "cw" :  [ "we.json", "pltest.json" ],
     "dev" : [ "we.json", "pltest.json" ]
   },
-  "stagemods" : [
-    {
-      "name": "local",
-      "status": "on",
+  "secretsmods" : {
+    "local" : {
+      "description" : "For develpers to develop locally",
       "routes": [
-        [ "api.CLUSTERlocal", "api.STAGEdev" ],
-        [ "we.db.CLUSTERlocal", "we.db.STAGEdev" ],
-        [ "we.CLUSTERlocal", "we.STAGEdev" ],
-        [ "www.CLUSTERlocal", "www.STAGEdev" ]
+        [ "api.CLUSTERlocal", "api" ],
+        [ "apidb.CLUSTERlocal", "apidb" ],
+        [ "we.db.CLUSTERlocal", "we.db" ],
+        [ "we.CLUSTERlocal", "we" ],
+        [ "www.CLUSTERlocal", "www" ]
       ]
     }
-  ]
+  }
 }
 
