@@ -1,5 +1,5 @@
 {
-  "ver" : 0,
+  "ver" : 1,
   "project": {
     "type": "pl",
     "project": "pltest",
@@ -14,17 +14,17 @@
   },
   "nodeploy": {},
   "secrets": {
-    "dev" : [ "we.json", "pltest.json" ]
+    "dev" : [ "we.json", "testserver.json", "pltest.json" ]
   },
   "secretsmods" : {
     "local" : {
       "description" : "For develpers to develop locally",
       "routes": [
-        [ "api.CLUSTERlocal", "api" ],
+        [ "api.CLUSTERlocal",   "api" ],
         [ "apidb.CLUSTERlocal", "apidb" ],
         [ "we.db.CLUSTERlocal", "we.db" ],
-        [ "we.CLUSTERlocal", "we" ],
-        [ "www.CLUSTERlocal", "www" ]
+        [ "we.CLUSTERlocal",    "we" ],
+        [ "www.CLUSTERlocal",   "www" ]
       ]
     }
   }

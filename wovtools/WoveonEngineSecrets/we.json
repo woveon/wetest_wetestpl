@@ -1,0 +1,64 @@
+
+{
+  "//we" : "Woveon Engine common config. These are pod ports; service is port 80.",
+  "we" : {
+    "ver"     : "v1",
+    "wl_port" : 80,
+    "rl_port" : 80,
+    "ov_port" : 80,
+    "CLUSTERlocal" : {
+      "wl_port" : 50105,
+      "rl_port" : 50106,
+      "ov_port" : 50107,
+      "fullurl" : "http://localhost"
+    },
+    "CLUSTERvh" : {
+      "wl_port" : 50105,
+      "rl_port" : 50106,
+      "ov_port" : 50107
+    },
+
+    "outofdateseconds" : 10,
+
+    "//apisecret"  : "the secret shared with the API to auth this plugin",
+    "apisecret"    : "\"SET PER STAGE openssl rand -hex 20\"",
+    "//datasecret" : "the secret to encrypt data in this plugin",
+    "datasecret"   : "\"SET PER STAGE openssl rand -hex 20\"",
+
+    "fullurl"      : "\"SET PER STAGE {https://pl{PROJECT}-{STAGE}.woveon.com}\"",
+
+    "//db"  : "database credentials connect to mongo service",
+    "db" : {
+      "volume"     : "var/vol/mongodata",
+      "port"       : 27017,
+      "user"       : "mongouser",
+      "type"       : "mongo",
+      "collection" : "we",
+      "url"        : "ex. pl{PROJECT}db-{STAGE}-mongodb",
+      "CLUSTERlocal" : { "url" : "localhost", "port" : "65432" }
+    },
+
+    "STAGEdev" : { "fullurl" : "http://pltest-dev" },
+    "STAGEME"  : { "fullurl" : "https://pltest" }
+  },
+
+  "//apirest" : "For connecting to API",
+  "api" : {
+    "ver"          : "v1",
+    "fullurl"      : "SET TO STAGE",
+    "CLUSTERlocal" : { "fullurl" : "http://localhost:3010" }
+  },
+
+  "www" : {
+    "CLUSTERlocal" : {
+      "app"   : {"fullurl" : "http://localhost:8080"},
+      "dev"   : {"fullurl" : "http://localhost:8090"},
+      "admin" : {"fullurl" : "http://localhost:8091"}
+    },
+    "STAGEdev" : {
+      "app"   : {"fullurl" : "http://app-dev.woveon.com"},
+      "dev"   : {"fullurl" : "http://dev-dev.woveon.com"},
+      "admin" : {"fullurl" : "http://admin-dev.woveon.com"}
+    }
+  }
+}

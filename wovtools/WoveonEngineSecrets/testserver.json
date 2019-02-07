@@ -1,0 +1,17 @@
+{
+  "//api" : "Additional variables for testserver configuration (layer on we.json)",
+  "api" : {
+    "containerfrom"   : "node:10.1",
+    "daemonTime"      : 60000,
+    "port_int"        : 80,
+    "port_ext"        : 3010,
+    "healthprobetime" : 9
+  },
+  "testuser" : {
+    "//"       : "Used to login and test all plugins.",
+    "id"       : 2,
+    "name"     : "tester",
+    "email"    : "MISSING:SET_IN_STAGE",
+    "password" : "MISSING:SET_IN_STAGE"
+  }
+}
