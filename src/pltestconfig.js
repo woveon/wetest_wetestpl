@@ -7,7 +7,7 @@ module.exports = class PltestConfig extends WEConfig {
    */
   constructor(_logger) {
     super(_logger,
-      ['WOV_we_wl_port', 'WOV_we_db_url', 'WOV_we_db_collection', 'WOV_we_fullurl'],
+      [],
       []);
   }
 };

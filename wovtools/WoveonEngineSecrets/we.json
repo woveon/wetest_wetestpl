@@ -10,22 +10,28 @@
       "wl_port" : 50105,
       "rl_port" : 50106,
       "ov_port" : 50107,
-      "fullurl" : "http://localhost"
+      "//fullurl" : "http://localhost",
+      "wl_url"  : "http://localhost",
+      "rl_url"  : "http://localhost",
+      "ov_url"  : "http://localhost"
     },
     "CLUSTERvh" : {
       "wl_port" : 50105,
       "rl_port" : 50106,
-      "ov_port" : 50107
+      "ov_port" : 50107,
+      "wl_url"  : "http://localhost",
+      "rl_url"  : "http://localhost",
+      "ov_url"  : "http://localhost"
     },
 
-    "outofdateseconds" : 10,
+    "outofdateseconds" : 20,
 
     "//apisecret"  : "the secret shared with the API to auth this plugin",
     "apisecret"    : "\"SET PER STAGE openssl rand -hex 20\"",
     "//datasecret" : "the secret to encrypt data in this plugin",
     "datasecret"   : "\"SET PER STAGE openssl rand -hex 20\"",
 
-    "fullurl"      : "\"SET PER STAGE {https://pl{PROJECT}-{STAGE}.woveon.com}\"",
+    "//fullurl"      : "\"SET PER STAGE {https://pl{PROJECT}-{STAGE}.woveon.com}\"",
 
     "//db"  : "database credentials connect to mongo service",
     "db" : {
