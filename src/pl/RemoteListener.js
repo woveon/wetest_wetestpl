@@ -4,6 +4,7 @@ const Logger                = require('woveon-logger');
 
 const WE                    = require('woveon-engine-p');
 const WEService             = WE.Service;
+const ResLib                = WEService.ResLib;
 const RemoteListenerService = WE.MicroServices.RemoteListener;
 // const Listener              = WEService.Listener;
 const Requester             = WEService.Requester;
@@ -26,6 +27,17 @@ module.exports = class pltestRemoteListener extends RemoteListenerService {
                   {showName : true, debug : true, level : 'info'},
                   {listener : false, requester : false});
     this.toTestPlugin= new Requester(logger, 'http://localhost:3010');
+  }
+
+  /**
+   * Create a model to genereate Resource objects
+   * @return {ResModel} - the model representing both the Message and the RemoteService
+   */
+  doInitMessageModel() { 
+    const resp = new WEService.ResTypes.Message();
+    const plp  = new (require('./resMessage'))();
+    const MessageModel = new ResLib.ResModel(resp, plp);
+    return MessageModel; 
   }
 
   /**
@@ -153,7 +165,7 @@ module.exports = class pltestRemoteListener extends RemoteListenerService {
    * @param {object} _post
    * @return {int} - ms since unix epoc
    */
-  getMsgInc(_channel, _post) {return new Date(_post.created_time).getTime();};
+  // getMsgInc(_channel, _post) {return new Date(_post.created_time).getTime();};
 
 
   // for now, just use monitor started time

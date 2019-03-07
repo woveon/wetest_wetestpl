@@ -6,6 +6,7 @@ const WovReturn             = Service.WovReturn;
 const C                     = Service.Config;
 const ResLib                = require('../../../src/service/reslib');
 const MessageResProto = require('../../../src/service/restypes/message');
+const PLTestProto           = require('./resMessage');
 
 
 module.exports = class pltestWoveonListener extends WoveonListenerService {
@@ -38,7 +39,7 @@ module.exports = class pltestWoveonListener extends WoveonListenerService {
   }
 
   doInitMessageModel() {
-    let plp  = new ResLib.prot.PLProto();
+    let plp  = new PLTestProto();// new ResLib.prot.PLProto();
     let resp = new MessageResProto();
     return new ResLib.ResModel(resp, plp);
   }

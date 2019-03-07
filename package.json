@@ -1,6 +1,6 @@
 {
   "name": "pltest",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Woveon test and development plugin.",
   "main": "src/index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "author": "Chadwick Wingrave",
   "license": "UNLICENSED",
   "dependencies": {
-    "woveon-engine-p" : "^0.1.36",
+    "woveon-engine-p" : "^0.1.40",
     "woveon-logger"   : "^0.0.16"
   }
 }
