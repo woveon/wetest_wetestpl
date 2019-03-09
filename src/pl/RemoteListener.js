@@ -18,11 +18,13 @@ module.exports = class pltestRemoteListener extends RemoteListenerService {
 
   /**
    * Constructor.
-   * @param {*} _config
    * @param {*} _options
    */
-  constructor(_config, _options = {name : 'testRemoteListener'}) {
-    super(_config, _options);
+  constructor(_options = {}) {
+    let options = Object.assign({}, {
+      name : 'pltestrl',
+    }, _options);
+    super(options);
     let logger = new Logger('pltestrl'.toUpperCase(),
                   {showName : true, debug : true, level : 'info'},
                   {listener : false, requester : false});
@@ -33,11 +35,11 @@ module.exports = class pltestRemoteListener extends RemoteListenerService {
    * Create a model to genereate Resource objects
    * @return {ResModel} - the model representing both the Message and the RemoteService
    */
-  doInitMessageModel() { 
+  doInitMessageModel() {
     const resp = new WEService.ResTypes.Message();
     const plp  = new (require('./resMessage'))();
     const MessageModel = new ResLib.ResModel(resp, plp);
-    return MessageModel; 
+    return MessageModel;
   }
 
   /**
@@ -153,22 +155,11 @@ module.exports = class pltestRemoteListener extends RemoteListenerService {
 
 
   /**
-   * Helper function abstraction to get the identifying information from a post.
-   * @param {object} _post
-   * @return {*} - post
+   * Inc of the channel.
+   *
+   * @param {object} _channel -
+   * @return {Long} -
    */
-  getMsgId(_channel, _post) { return _post.id; };
-
-
-  /**
-   * Turn the date (down to second) into unix epoc in ms.
-   * @param {object} _post
-   * @return {int} - ms since unix epoc
-   */
-  // getMsgInc(_channel, _post) {return new Date(_post.created_time).getTime();};
-
-
-  // for now, just use monitor started time
   async getInc(_channel) { return _channel.e_mon; };
 
 

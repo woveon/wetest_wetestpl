@@ -3,11 +3,13 @@ const WoveonListenerService = require('../../../src/microservices/woveonListener
 // const Service               = require('../../../src/service/service');
 const Service               = require('woveon-service');
 const WovReturn             = Service.WovReturn;
-const C                     = Service.Config;
 const ResLib                = require('../../../src/service/reslib');
 const MessageResProto = require('../../../src/service/restypes/message');
 const PLTestProto           = require('./resMessage');
 
+let PLConfig = require('../pltestconfig.js');
+
+let C = null;
 
 module.exports = class pltestWoveonListener extends WoveonListenerService {
 
@@ -21,6 +23,7 @@ module.exports = class pltestWoveonListener extends WoveonListenerService {
    * @param {*} _config
    */
   constructor(_options) {
+    C = PLConfig;
     let options = Object.assign({}, {
       name                  : 'pltestWoveonListener',
       staticdir             : 'static',
@@ -31,6 +34,9 @@ module.exports = class pltestWoveonListener extends WoveonListenerService {
     // console.log(__filename, ') options 1: ', options);
     super(options);
     // console.log(__filename, ') options 1: ', this.options);
+
+    this.logger.info(`C   ${C.isInited()}`);
+    this.logger.info(`ver ${C.get('WOV_api_ver')}`);
 
     // create a remote service requester, going to testserver which is imitaing a 
     // remote service's Oauth
@@ -63,7 +69,8 @@ module.exports = class pltestWoveonListener extends WoveonListenerService {
       `&state=${_args.t}`; // for pltest, just using token id as state
     this.logger.aspect('ChannelStart', `onChannelStart: channel "${_args.t}", to redirect to: "${remoteAuthPath}"`);
     // let result = await this.toRS.get(remoteAuthPath, null);
-    // this.logger.aspect('ChannelStart', ' ... RS result: ', result);
+    this.logger.aspect('ChannelStart', ' ... RS result: ', remoteAuthPath);
+    this.logger.info(' ... RS result: ', remoteAuthPath);
 
     // return result; // WovReturn.retRedirect(remoteAuthPath);
     // return WovReturn.retRedirect(result.data.redirectUrl);
