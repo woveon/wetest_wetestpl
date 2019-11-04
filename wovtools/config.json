@@ -1,32 +1,49 @@
 {
-  "ver" : 1,
+  "ver": 3,
   "project": {
-    "type": "pl",
-    "project": "pltest",
+    "masterproject" : "wetest",
+    "name": "wetestpl",
     "title": "Test Plugin for Woveon",
     "description": "Test plugin for demonstrating plugin development. Uses a pseudo Oauth authentication with testserver."
   },
-  "//operation": "unused so far",
-  "operation": {},
   "archive": {
-    "env": "s3://wovtools.woveon.com/archive/plem",
-    "repository": "686413534598.dkr.ecr.us-east-1.amazonaws.com"
+    "k8s": "s3://wovtools.woveon.com/archive",
+    "container": "686413534598.dkr.ecr.us-east-1.amazonaws.com"
   },
-  "nodeploy": {},
+  "nodeploy": [],
   "secrets": {
-    "dev" : [ "we.json", "testserver.json", "pltest.json" ]
+    "dev": [
+      "cluster_defaults.json",
+      "we/we.json",
+      "we/testserver.json",
+      "we/wetest.json"
+    ]
   },
-  "secretsmods" : {
-    "local" : {
-      "description" : "For develpers to develop locally",
+  "originmods": {
+    "local": {
+      "description": "For develpers to develop locally",
       "routes": [
-        [ "api.CLUSTERlocal",   "api" ],
-        [ "apidb.CLUSTERlocal", "apidb" ],
-        [ "we.db.CLUSTERlocal", "we.db" ],
-        [ "we.CLUSTERlocal",    "we" ],
-        [ "www.CLUSTERlocal",   "www" ]
+        [
+          "api.CLUSTERlocal",
+          "api"
+        ],
+        [
+          "apidb.CLUSTERlocal",
+          "apidb"
+        ],
+        [
+          "we.db.CLUSTERlocal",
+          "we.db"
+        ],
+        [
+          "we.CLUSTERlocal",
+          "we"
+        ],
+        [
+          "www.CLUSTERlocal",
+          "www"
+        ]
       ]
     }
   }
 }
-

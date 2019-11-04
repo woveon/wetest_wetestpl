@@ -29,6 +29,10 @@ module.exports = class pltestRemoteListener extends RemoteListenerService {
                   {showName : true, debug : true, level : 'info'},
                   {listener : false, requester : false});
     this.toTestPlugin= new Requester(logger, 'http://localhost:3010');
+
+    // standard is fine
+    this.postProcessRes_Messages = this.postProcessRes_Messages_Hierarchy;
+    logger.info('this.postProcessRes_Messages: ', this.postProcessRes_Messages);
   }
 
   /**
@@ -165,15 +169,16 @@ module.exports = class pltestRemoteListener extends RemoteListenerService {
 
   /**
    * Converts remote service's post data into a Woveon post data item.
-   * @param {*} _channel 
-   * @param {*} _posts 
+   * @param {String} _ctoken - channel token
+   * @param {Object}_rawdata - for pltest, just json
+   * @return {array} - of Res
    */
-  async convertChannelDataToRes(_channel, _res) {
-    // TODO: this doesn't work
-
-    // generates { posts:, comments:, likes:, }
-    let woveondata = await ConvertToW.convertPosts(this, _channel, _res);
-    return woveondata;
+  convertChannelDataToRes(_ctoken, _rawdata) {
+    let retval = [];
+    _rawdata.forEach( (_rsdata) => {
+      retval.push(this.MessageModel.generateRes(null, _rsdata, _ctoken));
+    });
+    return retval;
   }
 
 };

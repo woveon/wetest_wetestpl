@@ -44,8 +44,8 @@
       "CLUSTERlocal" : { "url" : "localhost", "port" : "65432" }
     },
 
-    "STAGEdev" : { "fullurl" : "http://pltest-dev" },
-    "STAGEME"  : { "fullurl" : "https://pltest" }
+    "STAGEdev" : { "fullurl" : "http://wetest-dev" },
+    "STAGEME"  : { "fullurl" : "https://wetest" }
   },
 
   "//apirest" : "For connecting to API",

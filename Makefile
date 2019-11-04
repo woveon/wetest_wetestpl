@@ -14,7 +14,7 @@
 
 PLUGIN_NAME=pltest
 PLUGIN_TITLE="Test Plugin for Woveon"
-include ../envs.mk
+include ../../.makebase_conf.mk
 
 #all: 
 #	@echo
@@ -27,8 +27,8 @@ include ../envs.mk
 #	@echo 
 #	@echo
 
-include ../envs_rules.mk
-include ../plugin_rules.mk
+include ../../envs_rules.mk
+include ../../plugin_rules.mk
 
 
 #run-pltestwl: check_pass_and_secrets

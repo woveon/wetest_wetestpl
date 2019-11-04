@@ -17,6 +17,6 @@
   "author": "Chadwick Wingrave",
   "license": "UNLICENSED",
   "dependencies": {
-    "woveon-engine-p" : "^0.1.42"
+    "woveon-engine-p" : "^0.1.44"
   }
 }
